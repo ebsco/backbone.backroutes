@@ -7,7 +7,7 @@ https://gist.github.com/remy/350433
 This Backbone Router plugin answers a specific use case where you need to map a link back to a certain route and trigger it with the last know set of parameters.  It provides the ability to specify a mapping of route handler ids to target fragments and provides a navigateWithParams method.
 
 ## Usage
-{{
+```
 	var router = Backbone.Router.extend({
 
 		backRoutes: {
@@ -23,4 +23,4 @@ This Backbone Router plugin answers a specific use case where you need to map a 
 	...
 
 	router.navigateWithParams("targetHandler")
-}}
+```
