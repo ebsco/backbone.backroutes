@@ -1,0 +1,12 @@
+{
+  "name": "backbone.backroutes",
+  "authors": "Ryan B Leach",
+  "version": "1.0.0",
+  "main": "backbone.backroutes.js",
+  "dependencies": {
+    "backbone.routefilter": "latest"
+  },
+  "devDependencies": {
+    "backbone.routefilter": "latest"
+  }
+}
