@@ -18,7 +18,7 @@ _.extend(Backbone.Router.prototype, {
 				previousRoute = sessionStorage.getItem('currentRoute');
 
 		// Don't set if same. (page refresh)
-		if (routeInfo.fragment !== JSON.parse(previousRoute).fragment) {
+		if (previousRoute && routeInfo.fragment !== JSON.parse(previousRoute).fragment) {
 			sessionStorage.setItem('previousRoute', previousRoute);
 		}
 
