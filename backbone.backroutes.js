@@ -10,20 +10,34 @@
 
 (function(_, Backbone) {
 
+var storeRouteInfo = function(routeInfo, storePrevious) {
+	var previousRoute = storePrevious ? sessionStorage.getItem('currentRoute') : null;
+
+	// Don't set if same. (page refresh)
+	if (previousRoute && routeInfo.fragment !== JSON.parse(previousRoute).fragment) {
+		sessionStorage.setItem('previousRoute', previousRoute);
+	}
+
+	sessionStorage.setItem('currentRoute', JSON.stringify(routeInfo));
+	sessionStorage.setItem(routeInfo.route, JSON.stringify(routeInfo));
+};
+
 _.extend(Backbone.Router.prototype, {
 
 	// Store route meta per route for recalling with back links
-	before: function(params, route) {
-		var routeInfo = this.current(),
-				previousRoute = sessionStorage.getItem('currentRoute');
+	before: function() {
+		storeRouteInfo(this.current(), true);
+	},
 
-		// Don't set if same. (page refresh)
-		if (previousRoute && routeInfo.fragment !== JSON.parse(previousRoute).fragment) {
-			sessionStorage.setItem('previousRoute', previousRoute);
+	navigate: function(fragment, options) {
+		Backbone.history.navigate(fragment, options);
+
+		// if we are just changing the url, we need to handle the storage here
+		// otherwise let the route filter handle
+		if (options !== true || !options.trigger) {
+			storeRouteInfo(this.current());
 		}
-
-		sessionStorage.setItem('currentRoute', JSON.stringify(routeInfo));
-		sessionStorage.setItem(routeInfo.route, JSON.stringify(routeInfo));
+		return this;
 	},
 
 	// pulled from: http://stackoverflow.com/questions/7563949/backbone-js-get-current-route
@@ -50,7 +64,7 @@ _.extend(Backbone.Router.prototype, {
 		};
 	},
 
-	navigateWithLastParams: function(route) {
+	navigateWithLastParams: function(route, options) {
 		var targetFragment, targetRoute, targetInfo, previousRoute;
 
 		previousRoute = sessionStorage.getItem('previousRoute');
@@ -63,7 +77,7 @@ _.extend(Backbone.Router.prototype, {
 		targetInfo = sessionStorage.getItem(targetRoute);
 		targetFragment = JSON.parse(targetInfo).fragment || this.backRoutes['default'];
 
-		this.navigate(targetFragment, true);
+		Backbone.history.navigate(targetFragment, options);
 	},
 
 	backRoutes: {
