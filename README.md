@@ -1,5 +1,5 @@
 ## Dependencies
-This plugin makes use of the [backbone.routefilter plugin](https://github.com/boazsender/backbone.routefilter) written by Boaz Sender.  It also uses sessionStorage and thus, if you need to support IE7 or below, you will need to implement a polyfill.
+This plugin makes use of sessionStorage and thus, if you need to support IE7 or below, you will need to implement a polyfill.
 https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills#web-storage-localstorage-and-sessionstorage
 https://gist.github.com/remy/350433
 

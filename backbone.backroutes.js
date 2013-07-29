@@ -1,7 +1,4 @@
 /*
- * Depends upon backbone.routefilter
- * https://github.com/boazsender/backbone.routefilter
- *
  * Depends upon sessionStorage
  * If you need to support IE7 or below, implement a polyfill:
  * https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills#web-storage-localstorage-and-sessionstorage
@@ -10,8 +7,8 @@
 
 (function(_, Backbone) {
 
-var storeRouteInfo = function(routeInfo, storePrevious) {
-	var previousRoute = storePrevious ? sessionStorage.getItem('currentRoute') : null;
+var storeRouteInfo = function(routeInfo) {
+	var previousRoute = sessionStorage.getItem('currentRoute');
 
 	// Don't set if same. (page refresh)
 	if (previousRoute && routeInfo.fragment !== JSON.parse(previousRoute).fragment) {
@@ -24,18 +21,13 @@ var storeRouteInfo = function(routeInfo, storePrevious) {
 
 _.extend(Backbone.Router.prototype, {
 
-	// Store route meta per route for recalling with back links
-	before: function() {
-		storeRouteInfo(this.current(), true);
-	},
-
 	navigate: function(fragment, options) {
 		Backbone.history.navigate(fragment, options);
-
-		// if we are just changing the url, we need to handle the storage here
-		// otherwise let the route filter handle
+		var routeInfo = this.current();
 		if (options !== true || !options.trigger) {
-			storeRouteInfo(this.current());
+			storeRouteInfo(routeInfo);
+		} else {
+			sessionStorage.setItem(routeInfo.route, JSON.stringify(routeInfo));
 		}
 		return this;
 	},
@@ -64,18 +56,24 @@ _.extend(Backbone.Router.prototype, {
 		};
 	},
 
-	navigateWithLastParams: function(route, options) {
+	navigateWithLastParams: function(route, options, defaultFragment) {
+
 		var targetFragment, targetRoute, targetInfo, previousRoute;
 
-		previousRoute = sessionStorage.getItem('previousRoute');
 		targetRoute = this.backRoutes[route] || this.backRoutes['default'];
 
 		if (_.isFunction(targetRoute)) {
+			previousRoute = sessionStorage.getItem('previousRoute');
 			targetRoute = targetRoute(previousRoute ? JSON.parse(previousRoute) : null);
 		}
 
+		if (targetRoute === false) {
+			history.back();
+			return;
+		}
+
 		targetInfo = sessionStorage.getItem(targetRoute);
-		targetFragment = JSON.parse(targetInfo).fragment || this.backRoutes['default'];
+		targetFragment = targetInfo ? JSON.parse(targetInfo).fragment : (defaultFragment || '');
 
 		Backbone.history.navigate(targetFragment, options);
 	},
