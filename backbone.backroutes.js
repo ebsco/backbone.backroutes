@@ -34,6 +34,7 @@ _.extend(Backbone.Router.prototype, {
 
 	// pulled from: http://stackoverflow.com/questions/7563949/backbone-js-get-current-route
 	current: function() {
+
 		var Router = this,
 				fragment = Backbone.history.fragment,
 				routes = _.pairs(Router.routes),
