@@ -3,4 +3,5 @@ node_modules
 libs
 .grunt
 specs.html
+specs/coverage
 .DS_Store
