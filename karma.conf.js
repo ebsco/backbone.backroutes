@@ -25,16 +25,9 @@ module.exports = function(config) {
 			'specs/*.spec.js'
 		],
 
-
-		// list of files to exclude
-		exclude: [
-
-		],
-
-
 		// test results reporter to use
 		// possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-		reporters: ['dots','coverage'],
+		reporters: ['dots','coverage','junit'],
 
 
 		// web server port
@@ -53,6 +46,22 @@ module.exports = function(config) {
 		// enable / disable watching file and executing tests whenever any file changes
 		autoWatch: true,
 
+		junitReporter: {
+			outputFile: 'specs/junit/test-results.xml'
+		},
+
+		preprocessors: {
+      // source files, that you wanna generate coverage for
+      // do not include tests or libraries
+      // (these files will be instrumented by Istanbul)
+      'backbone.backroutes.js': ['coverage']
+    },
+
+    // optionally, configure the reporter
+    coverageReporter: {
+      type : 'html',
+      dir : 'specs/coverage/'
+    },
 
 		// Start these browsers, currently available:
 		// - Chrome
@@ -62,7 +71,7 @@ module.exports = function(config) {
 		// - Safari (only Mac)
 		// - PhantomJS
 		// - IE (only Windows)
-		browsers: ['Chrome'],
+		browsers: ['PhantomJS'],
 
 		background: false,
 

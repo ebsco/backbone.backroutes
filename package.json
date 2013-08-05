@@ -7,11 +7,11 @@
     "grunt": "~0.4.1"
   },
   "devDependencies": {
-    "grunt-contrib-jasmine": "~0.5.1",
-    "grunt-template-jasmine-istanbul": "~0.2.4",
     "grunt-contrib-connect": "~0.3.0",
     "grunt-mocha": "~0.4.1",
+    "grunt-karma": "git://github.com/karma-runner/grunt-karma.git#796b8c8",
     "karma-mocha": "~0.0.4",
-    "grunt-karma": "~0.4.5"
+    "karma-coverage": "0.0.4",
+    "karma-junit-reporter": "0.0.2"
   }
 }
