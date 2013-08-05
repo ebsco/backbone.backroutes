@@ -27,6 +27,7 @@ describe('Backbone.Router extended with backbone.backroutes', function() {
 		var router;
 
 		beforeEach(function() {
+			console.log("*** Debug ***", 'here');
 			this.historyStub = sinon.stub(Backbone.History.prototype, 'navigate', function(fragment, options) {
 				router.test();
 			});
