@@ -1,24 +1,24 @@
 module.exports = function(grunt) {
 	grunt.initConfig({
 
-		// karma: {
-		// 	unit: {
-		// 		configFile: 'karma.conf.js',
-		// 		autoWatch: true
+		karma: {
+			unit: {
+				configFile: 'karma.conf.js',
+				autoWatch: true
+			}
+		}
+
+		// connect: {
+		// 	server: {
+		// 		options: {
+		// 			keepalive: true,
+		// 			port: 8001
+		// 		}
+		// 	},
+		// 	test: {
+		// 		default_options: {}
 		// 	}
 		// },
-
-		connect: {
-			server: {
-				options: {
-					keepalive: true,
-					port: 8001
-				}
-			},
-			test: {
-				default_options: {}
-			}
-		},
 
 		// jasmine: {
 		// 	unit: {
@@ -50,21 +50,21 @@ module.exports = function(grunt) {
 		// 	}
 		// }
 
-		mocha: {
-			all: {
-				options: {
-					run: true,
-					urls: ['http://localhost:8000/specs/index.html']
-				}
-			}
-		}
+		// mocha: {
+		// 	all: {
+		// 		options: {
+		// 			run: true,
+		// 			urls: ['http://localhost:8000/specs/index.html']
+		// 		}
+		// 	}
+		// }
 
 	});
 
-	// grunt.loadNpmTasks('grunt-karma');
-	grunt.loadNpmTasks('grunt-contrib-connect');
+	grunt.loadNpmTasks('grunt-karma');
+	// grunt.loadNpmTasks('grunt-contrib-connect');
 	// grunt.loadNpmTasks('grunt-contrib-jasmine');
-	grunt.loadNpmTasks('grunt-mocha');
+	// grunt.loadNpmTasks('grunt-mocha');
 
 	grunt.registerTask('test', ['connect:test','mocha']);
 };
