@@ -53,7 +53,8 @@ _.extend(Backbone.Router.prototype, {
 		return {
 			route: route,
 			fragment: fragment,
-			params: params
+			params: params,
+			test: true
 		};
 	},
 
