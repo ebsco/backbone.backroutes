@@ -4,7 +4,7 @@ module.exports = function(grunt) {
 		karma: {
 			unit: {
 				configFile: 'karma.conf.js',
-				browsers: ['Chrome'],
+				browsers: ['PhantomJS'],
 				autoWatch: true
 			}
 		},
@@ -21,21 +21,19 @@ module.exports = function(grunt) {
 			}
 		},
 
-		mocha: {
-			all: {
-				options: {
-					run: true,
-					urls: ['http://localhost:8000/specs/index.html']
-				}
-			}
+		clean: {
+			files: [
+				'specs/coverage',
+				'specs/junit'
+			]
 		}
 
 	});
 
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-contrib-connect');
-	grunt.loadNpmTasks('grunt-mocha');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 
 	grunt.registerTask('server', ['connect:server']);
-	grunt.registerTask('test', ['connect:test','mocha']);
+	grunt.registerTask('test', ['clean','karma']);
 };

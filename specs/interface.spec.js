@@ -27,7 +27,6 @@ describe('Backbone.Router extended with backbone.backroutes', function() {
 		var router;
 
 		beforeEach(function() {
-			console.log("*** Debug ***", 'here');
 			this.historyStub = sinon.stub(Backbone.History.prototype, 'navigate', function(fragment, options) {
 				router.test();
 			});
@@ -53,30 +52,49 @@ describe('Backbone.Router extended with backbone.backroutes', function() {
 
 	});
 
-	// describe("router.current", function() {
+	describe("router.current", function() {
 
-	// 	it("should have method", function() {
-	// 		expect(Backbone.Router.prototype.current).to.be.a('function');
-	// 	});
+		var router;
 
-	// 	it("should return info on the current route", function() {
-	// 		var currentSpy, routeInfo;
-	// 		currentSpy = sinon.spy(router, 'current');
+		beforeEach(function() {
 
-	// 		router.navigate('/', { trigger: false });
-	// 		routeInfo = router.current();
+			router = new Router();
 
-	// 		expect(currentSpy).called;
-	// 		expect(routeInfo.route).to.equal('index');
-	// 		expect(routeInfo.fragment).to.equal('');
-	// 		expect(routeInfo.params).to.be.ok;
-	// 	});
+			// Tests depend upon pushState event
+			Backbone.history.start({ pushState: true, root: '/' });
 
-	// });
+			router.navigate('test?foo=bar', true);
+		});
+
+		afterEach(function() {
+			Backbone.history.stop();
+		});
+
+		it("should have method", function() {
+			expect(Backbone.Router.prototype.current).to.be.a('function');
+		});
+
+		it("should return info on the current route", function() {
+			var currentSpy, routeInfo;
+			currentSpy = sinon.spy(router, 'current');
+
+			routeInfo = router.current();
+
+			expect(currentSpy).called;
+			expect(routeInfo.route).to.equal('test');
+			expect(routeInfo.fragment).to.equal('test?foo=bar');
+			expect(routeInfo.params[0].foo).to.equal('bar');
+		});
+
+	});
 
 	describe("router.navigateWithLastParams", function() {
 
 		it("should have method", function() {
+			expect(Backbone.Router.prototype.navigateWithLastParams).to.be.a('function');
+		});
+
+		it("should navigate to a specified backRoute", function() {
 			expect(Backbone.Router.prototype.navigateWithLastParams).to.be.a('function');
 		});
 
