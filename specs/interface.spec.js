@@ -1,4 +1,3 @@
-// helper: js
 describe('Backbone.Router extended with backbone.backroutes', function() {
 
 	var Router = Backbone.Router.extend({

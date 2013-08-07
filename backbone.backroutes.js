@@ -49,12 +49,6 @@ _.extend(Backbone.Router.prototype, {
 			route = matched[1];
 		}
 
-		// console.log({
-		// 	route: route,
-		// 	fragment: fragment,
-		// 	params: params
-		// });
-
 		return {
 			route: route,
 			fragment: fragment,

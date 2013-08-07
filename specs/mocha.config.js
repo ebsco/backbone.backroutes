@@ -1,2 +1,3 @@
 mocha.setup('bdd');
-var expect = chai.expect;
+var expect = chai.expect,
+		should = chai.should();
