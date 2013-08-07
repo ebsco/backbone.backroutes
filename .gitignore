@@ -4,4 +4,5 @@ libs
 .grunt
 specs.html
 specs/coverage
+specs/junit
 .DS_Store

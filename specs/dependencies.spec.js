@@ -1,15 +1,15 @@
 describe('Dependencies for backbone.backroutes', function() {
 
 	it('should have jQuery', function() {
-		expect($).toBeDefined('jQuery is required');
+		expect($).to.be.ok;
 	});
 
 	it('should have Underscore', function() {
-		expect(_).toBeDefined('Underscore is required');
+		expect(_).to.be.ok;
 	});
 
 	it('should have Backbone', function() {
-		expect(Backbone).toBeDefined('Backbone is required');
+		expect(Backbone).to.be.ok;
 	});
 
 });

@@ -1,45 +1,39 @@
 module.exports = function(grunt) {
 	grunt.initConfig({
 
+		karma: {
+			unit: {
+				configFile: 'karma.conf.js',
+				browsers: ['PhantomJS'],
+				autoWatch: true
+			}
+		},
+
 		connect: {
 			server: {
+				options: {
+					keepalive: true,
+					port: 8001
+				}
+			},
+			test: {
 				default_options: {}
 			}
 		},
 
-		jasmine: {
-			unit: {
-				src: ['backbone.backroutes.js'],
-				options: {
-					helpers: ['./example/scripts/app.js'],
-					vendor: [
-						'./libs/jQuery/jquery.min.js',
-						'./libs/underscore/underscore-min.js',
-						'./libs/backbone/backbone-min.js'
-					],
-					host: 'http://localhost:8000/',
-					specs: ['./specs/*.spec.js'],
-					keepRunner: true,
-					outfile: 'specs.html',
-					template: require('grunt-template-jasmine-istanbul'),
-          templateOptions: {
-              coverage: 'specs/coverage/coverage.json',
-              report: 'specs/coverage',
-              thresholds: {
-                  lines: 75,
-                  statements: 75,
-                  branches: 75,
-                  functions: 90
-              }
-          }
-				}
-			}
+		clean: {
+			files: [
+				'specs/coverage',
+				'specs/junit'
+			]
 		}
 
 	});
 
+	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-contrib-connect');
-	grunt.loadNpmTasks('grunt-contrib-jasmine');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 
-	grunt.registerTask('test', ['connect','jasmine']);
+	grunt.registerTask('server', ['connect:server']);
+	grunt.registerTask('test', ['clean','karma']);
 };

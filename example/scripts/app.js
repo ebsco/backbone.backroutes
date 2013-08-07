@@ -9,17 +9,13 @@
 
 		backRoutes: {},
 
-		test: function() {
+		test: function(params) {
 		},
 
 		index: function() {
 		}
 
 	});
-
-	this.app = {
-		router: new Router()
-	};
 
 	// Tests depend upon pushState event
 	Backbone.history.start({ pushState: true, root: '/' });

@@ -4,10 +4,14 @@
   "version": "0.0.3",
   "main": "backbone.backroutes.js",
   "dependencies": {
+    "jQuery": "latest",
+    "underscore": "latest",
     "backbone": "~1.0.0",
-    "underscore": "~1.5.1"
+    "backbone-query-parameters": "latest"
   },
   "devDependencies": {
-    "jQuery": "~2.0.3"
+    "mocha": "~1.12.0",
+    "chai": "~1.7.2",
+    "sinonjs": "~1.7.1"
   }
 }

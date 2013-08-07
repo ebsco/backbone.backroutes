@@ -1,58 +1,101 @@
-// helper: app.js
+// helper: js
 describe('Backbone.Router extended with backbone.backroutes', function() {
 
-	var routerInstance = app.router;
+	var Router = Backbone.Router.extend({
+
+		routes: {
+			'test': 'test',
+			'*path': 'index'
+		},
+
+		backRoutes: {},
+
+		test: function(params) {
+		},
+
+		index: function() {
+		}
+
+	});
 
 	it('should allow backRoutes to be specified', function() {
-		expect(routerInstance.backRoutes).toBeDefined();
+		expect(Backbone.Router.prototype.backRoutes).to.be.an('object');
 	});
 
-	describe("routerInstance.navigate", function() {
+	describe("router.navigate", function() {
+
+		var router;
+
+		beforeEach(function() {
+			this.historyStub = sinon.stub(Backbone.History.prototype, 'navigate', function(fragment, options) {
+				router.test();
+			});
+			router = new Router();
+
+			// Tests depend upon pushState event
+			Backbone.history.start({ pushState: true, root: '/' });
+
+			router.navigate('test?foo=bar', true);
+		});
+
+		afterEach(function() {
+			this.historyStub.restore();
+			Backbone.history.stop();
+		});
 
 		it("should pass-through correctly to history.navigate", function() {
-			var routeSpy, historySpy;
-
-			routeSpy = spyOn(routerInstance, 'test').andCallThrough();
-			historySpy = spyOn(Backbone.history, 'navigate').andCallFake(function() {
-				routerInstance.test();
-			});
-			routerInstance.navigate('test', true);
-
-			expect(routeSpy).toHaveBeenCalled();
-			expect(historySpy).toHaveBeenCalledWith('test', true);
+			expect(router.test).to.not.be.undefined;
+			Backbone.history.navigate.calledWith('test?foo=bar', true);
 		});
 
-		it("should store route information whenever navigate is called", function() {
-
-		});
+		it("should store route information whenever navigate is called");
 
 	});
 
-	describe("routerInstance.current", function() {
+	describe("router.current", function() {
+
+		var router;
+
+		beforeEach(function() {
+
+			router = new Router();
+
+			// Tests depend upon pushState event
+			Backbone.history.start({ pushState: true, root: '/' });
+
+			router.navigate('test?foo=bar', true);
+		});
+
+		afterEach(function() {
+			Backbone.history.stop();
+		});
 
 		it("should have method", function() {
-			expect(Backbone.Router.prototype.current).toBeDefined();
+			expect(Backbone.Router.prototype.current).to.be.a('function');
 		});
 
 		it("should return info on the current route", function() {
 			var currentSpy, routeInfo;
-			currentSpy = spyOn(routerInstance, 'current').andCallThrough();
+			currentSpy = sinon.spy(router, 'current');
 
-			routerInstance.navigate('/');
-			routeInfo = routerInstance.current();
+			routeInfo = router.current();
 
-			expect(currentSpy).toHaveBeenCalled();
-			expect(routeInfo.route).toBe('index');
-			expect(routeInfo.fragment).toBe('');
-			expect(routeInfo.params).toBeDefined();
+			expect(currentSpy).called;
+			expect(routeInfo.route).to.equal('test');
+			expect(routeInfo.fragment).to.equal('test?foo=bar');
+			expect(routeInfo.params[0].foo).to.equal('bar');
 		});
 
 	});
 
-	describe("routerInstance.navigateWithLastParams", function() {
+	describe("router.navigateWithLastParams", function() {
 
 		it("should have method", function() {
-			expect(Backbone.Router.prototype.navigateWithLastParams).toBeDefined();
+			expect(Backbone.Router.prototype.navigateWithLastParams).to.be.a('function');
+		});
+
+		it("should navigate to a specified backRoute", function() {
+			expect(Backbone.Router.prototype.navigateWithLastParams).to.be.a('function');
 		});
 
 	});
