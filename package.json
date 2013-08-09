@@ -1,7 +1,7 @@
 {
   "name": "backbone.backroutes",
   "authors": "Ryan B Leach",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "main": "backbone.backroutes.js",
   "dependencies": {
     "grunt": "~0.4.1"
