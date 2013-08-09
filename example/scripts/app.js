@@ -1,7 +1,27 @@
 (function($, _, Backbone) {
 
-	var Router = Backbone.Router.extend({
+	// Setup a basic app to render the current route info
+	var RouteView = Backbone.View.extend({
+		el: "#main",
+		template: _.template("<pre><code class='json'><%= code %></code></pre>"),
 
+		serialize: function() {
+			var json = JSON.stringify(this.model, null, '  ');
+			return {
+				code: hljs.highlight('json', json).value
+			};
+		},
+
+		render: function() {
+			$(this.el).html(this.template(this.serialize()));
+		},
+
+		initialize: function() {
+			this.listenTo(this.model, 'change', this.render);
+		}
+	});
+
+	var Router = Backbone.Router.extend({
 		routes: {
 			'example/one(/)': 'one',
 			'example/two(/)': 'two',
@@ -16,23 +36,25 @@
 			'four': 'one'
 		},
 
-		one: function(params) {
-		},
+		one: $.noop,
+		two: $.noop,
+		three: $.noop,
+		four: $.noop,
 
-		two: function(params) {
-		},
-
-		three: function(params) {
-		},
-
-		four: function(params) {
+		initialize: function() {
+			var routeModel = new Backbone.Model();
+			var routeView = new RouteView({ model: routeModel });
+			this.on('route', function(route) {
+				routeModel.set(this.current());
+			});
 		}
-
 	});
 	var router = new Router();
 
 	// Tests depend upon pushState event
-	Backbone.history.start({ pushState: true, fragment: true, root: '/' });
+	Backbone.history.start({ pushState: true, fragment: true });
+
+	// Capture the navigation links
 	$(document).on("click", "a[href]:not([data-bypass])", function(evt) {
 		var href = { prop: $(this).prop("href"), attr: $(this).attr("href") };
 		var root = location.protocol + "//" + location.host + '/example';
@@ -45,24 +67,6 @@
 				router.navigate(href.attr, true);
 			}
 		}
-	});
-
-	var app = _.extend({}, Backbone.Events);
-	var View = Backbone.View.extend({
-
-		el: "#main",
-
-		template: _.template("<pre><code class='json'><%= code %></code></pre>"),
-
-		render: function() {
-			$(this.el).html(this.template({
-				code: hljs.highlight('json', JSON.stringify(this.model, null, '  ')).value
-			}));
-		}
-
-	});
-	app.listenTo(router, 'route', function(route) {
-		new View({ model: router.current() }).render();
 	});
 
 })(jQuery, _, Backbone);

@@ -7,11 +7,12 @@
     "grunt": "~0.4.1"
   },
   "devDependencies": {
-    "grunt-contrib-connect": "~0.3.0",
     "grunt-karma": "git://github.com/karma-runner/grunt-karma.git#796b8c8",
     "karma-mocha": "~0.0.4",
     "karma-coverage": "0.0.4",
     "karma-junit-reporter": "0.0.2",
-    "grunt-contrib-clean": "~0.5.0"
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-express": "~1.0.0-beta2",
+    "express": "~3.3.4"
   }
 }

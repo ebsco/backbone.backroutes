@@ -1,3 +1,4 @@
+var path = require('path');
 module.exports = function(grunt) {
 	grunt.initConfig({
 
@@ -9,15 +10,13 @@ module.exports = function(grunt) {
 			}
 		},
 
-		connect: {
+		express: {
 			server: {
 				options: {
-					keepalive: true,
+					bases: '.',
+					server: path.resolve('./express'),
 					port: 8001
 				}
-			},
-			test: {
-				default_options: {}
 			}
 		},
 
@@ -31,9 +30,9 @@ module.exports = function(grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-karma');
-	grunt.loadNpmTasks('grunt-contrib-connect');
+	grunt.loadNpmTasks('grunt-express');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 
-	grunt.registerTask('server', ['connect:server']);
+	grunt.registerTask('server', ['express:server','express-keepalive']);
 	grunt.registerTask('test', ['clean','karma']);
 };

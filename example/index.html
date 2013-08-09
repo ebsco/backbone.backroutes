@@ -6,12 +6,12 @@
 </head>
 <body>
 	<nav>
-		<a data-bypass href="/example/index.html">home</a>
 		<a class="back" href="example/one/">&laquo; back</a>
-		<a href="example/one?pg=1">one</a>
-		<a href="example/two?pg=2">two</a>
-		<a href="example/three?pg=3">three</a>
-		<a href="example/four?pg=4">four</a>
+		<a href="example/one?pg=1" title="goes to four">one</a>
+		<a href="example/two?pg=2" title="goes to three">two</a>
+		<a href="example/three?pg=3" title="goes to two">three</a>
+		<a href="example/four?pg=4" title="goes to one">four</a>
+		<a href="example/one">one (no params)</a>
 	</nav>
 	<div id="main"></div>
 	<script src="../libs/jQuery/jquery.min.js"></script>
