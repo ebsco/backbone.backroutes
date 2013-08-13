@@ -56,7 +56,7 @@ _.extend(Backbone.Router.prototype, {
 		};
 	},
 
-	navigateWithLastParams: function(route, options, defaultFragment) {
+	navigateBackToRoute: function(route, options, defaultFragment) {
 
 		var targetFragment, targetRoute, targetInfo, previousRoute;
 

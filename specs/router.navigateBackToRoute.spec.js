@@ -1,4 +1,4 @@
-describe("router.navigateWithLastParams", function() {
+describe("router.navigateBackToRoute", function() {
 	var Router = Backbone.Router.extend({
 
 		routes: {
@@ -29,7 +29,7 @@ describe("router.navigateWithLastParams", function() {
 	var router = new Router();
 
 	it("should navigate to a specified backRoute", function() {
-		expect(Backbone.Router.prototype.navigateWithLastParams).to.be.a('function');
+		expect(Backbone.Router.prototype.navigateBackToRoute).to.be.a('function');
 	});
 
 });

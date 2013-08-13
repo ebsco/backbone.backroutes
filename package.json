@@ -1,18 +1,19 @@
 {
   "name": "backbone.backroutes",
   "authors": "Ryan B Leach",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "backbone.backroutes.js",
   "dependencies": {
     "grunt": "~0.4.1"
   },
   "devDependencies": {
-    "grunt-karma": "git://github.com/karma-runner/grunt-karma.git#796b8c8",
-    "karma-mocha": "~0.0.4",
-    "karma-coverage": "0.0.4",
-    "karma-junit-reporter": "0.0.2",
+    "grunt-karma": "~0.7.0",
+    "karma-mocha": "~0.1.0",
+    "karma-coverage": "0.1.0",
+    "karma-junit-reporter": "0.1.0",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-express": "~1.0.0-beta2",
-    "express": "~3.3.4"
+    "express": "~3.3.4",
+    "grunt-contrib-watch": "~0.5.1"
   }
 }
