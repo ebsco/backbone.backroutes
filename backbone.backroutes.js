@@ -56,11 +56,12 @@ _.extend(Backbone.Router.prototype, {
 		};
 	},
 
-	navigateBackToRoute: function(route, options, defaultFragment) {
+	navigateBackToRoute: function(options, defaultFragment) {
 
-		var targetFragment, targetRoute, targetInfo, previousRoute;
+		var currentRoute, targetRoute, targetFragment, targetInfo, previousRoute;
 
-		targetRoute = this.backRoutes[route] || this.backRoutes['default'];
+		currentRoute = this.current().route,
+		targetRoute = this.backRoutes[currentRoute] || this.backRoutes['default'];
 
 		if (_.isFunction(targetRoute)) {
 			previousRoute = sessionStorage.getItem('previousRoute');

@@ -14,6 +14,6 @@
     "grunt-contrib-clean": "~0.5.0",
     "grunt-express": "~1.0.0-beta2",
     "express": "~3.3.4",
-    "grunt-contrib-watch": "~0.5.1"
+    "grunt-contrib-watch": "~0.5.1" // complaining about not haveing this, but we don't use it
   }
 }

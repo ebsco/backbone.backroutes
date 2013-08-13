@@ -28,8 +28,24 @@ describe("router.navigateBackToRoute", function() {
 	});
 	var router = new Router();
 
+	beforeEach(function() {
+		sessionStorage.clear();
+		this.historyStub = sinon.stub(Backbone.History.prototype, 'navigate');
+
+		// Tests depend upon pushState event
+		Backbone.history.start({ pushState: true, root: '/' });
+	});
+
+	afterEach(function() {
+		this.historyStub.restore();
+		Backbone.history.stop();
+	});
+
 	it("should navigate to a specified backRoute", function() {
-		expect(Backbone.Router.prototype.navigateBackToRoute).to.be.a('function');
+		router.navigate('one', true);
+		router.navigateBackToRoute();
+
+		Backbone.History.prototype.navigate.calledWith('target1');
 	});
 
 });
