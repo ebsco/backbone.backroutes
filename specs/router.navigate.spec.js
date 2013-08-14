@@ -14,25 +14,23 @@ describe("router.navigate", function() {
 
 	beforeEach(function() {
 		sessionStorage.clear();
-		this.historyStub = sinon.stub(Backbone.History.prototype, 'navigate', function(fragment, options) {
-			router.test();
-		});
+		this.historySpy = sinon.spy(Backbone.History.prototype, 'navigate');
 
 		// Tests depend upon pushState event
-		Backbone.history.start({ pushState: true, root: '/' });
+		Backbone.history.start({ pushState: true, fragment: true, root: '/' });
 
 		router.navigate('test?foo=bar', true);
 	});
 
 	afterEach(function() {
-		this.historyStub.restore();
+		this.historySpy.restore();
 		Backbone.history.stop();
 	});
 
 
 	it("should pass-through correctly to history.navigate", function() {
 		expect(router.test).to.be.defined;
-		Backbone.history.navigate.calledWith('test?foo=bar', true);
+		expect(Backbone.history.navigate.calledWithExactly('test?foo=bar', true)).to.be.true;
 	});
 
 	it("should store route information whenever navigate is called", function() {

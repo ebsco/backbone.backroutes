@@ -4,48 +4,91 @@ describe("router.navigateBackToRoute", function() {
 		routes: {
 			'one': 'one',
 			'two': 'two',
+			'three': 'three',
 			'target1': 'target1',
-			'target2': 'target2'
+			'target2': 'target2',
+			'returnFalse': 'returnFalse'
 		},
 
 		backRoutes: {
 			'one': 'target1',
-			'two': 'target2'
+			'two': function(lastRoute) {
+				if (!lastRoute || !lastRoute.route) {
+					throw new Error('lastRoute not passed');
+				}
+				return 'target2';
+			},
+			'returnFalse': function(lastRoute) {
+				return false;
+			},
+			'default': 'one'
 		},
 
-		one: function(params) {
-		},
-
-		two: function(params) {
-		},
-
-		target1: function(params) {
-		},
-
-		target2: function(params) {
-		}
+		one: $.noop,
+		two: $.noop,
+		three: $.noop,
+		target1: $.noop,
+		target2: $.noop
 
 	});
 	var router = new Router();
 
 	beforeEach(function() {
 		sessionStorage.clear();
-		this.historyStub = sinon.stub(Backbone.History.prototype, 'navigate');
+		this.historySpy = sinon.spy(Backbone.History.prototype, 'navigate');
 
 		// Tests depend upon pushState event
-		Backbone.history.start({ pushState: true, root: '/' });
+		Backbone.history.start({ pushState: true, fragment: true, root: '/' });
 	});
 
 	afterEach(function() {
-		this.historyStub.restore();
+		this.historySpy.restore();
 		Backbone.history.stop();
 	});
 
 	it("should navigate to a specified backRoute", function() {
-		router.navigate('one', true);
-		router.navigateBackToRoute();
+		router.navigate('target1');
+		router.navigate('one');
+		router.navigateBackToRoute(router.current().route);
 
-		Backbone.History.prototype.navigate.calledWith('target1');
+		expect(Backbone.History.prototype.navigate.calledWith('target1')).to.be.true;
+	});
+
+	it("should navigate to a provided default route when no backRoute specified", function() {
+		router.navigate('one');
+		router.navigate('target1');
+		router.navigateBackToRoute(router.current().route);
+
+		expect(Backbone.History.prototype.navigate.calledWith('one')).to.be.true;
+	});
+
+	it("should navigate to a backup fragment when route has not been previously navigated", function() {
+		router.navigate('target1');
+		router.navigateBackToRoute(router.current().route, null, 'one');
+
+		expect(Backbone.History.prototype.navigate.calledWith('one')).to.be.true;
+	});
+
+	it("should allow a function as a backroute", function() {
+		router.navigate('target2');
+		router.navigate('two');
+		router.navigateBackToRoute(router.current().route);
+
+		expect(Backbone.History.prototype.navigate.calledWith('target2')).to.be.true;
+	});
+
+	it("should pass the lastRoute as a parameter to a backroute function when there is navigation activity", function() {
+		router.navigate('target2');
+		router.navigate('two');
+		expect(router.navigateBackToRoute(router.current().route)).to.not.throw;
+	});
+
+	it("should call navigate.back when a backroute function returns false", function() {
+		router.navigate('two');
+		router.navigate('returnFalse');
+		router.navigateBackToRoute(router.current().route);
+
+		expect(Backbone.History.prototype.navigate.calledWith('two')).to.be.true;
 	});
 
 });
