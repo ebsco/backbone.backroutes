@@ -1,4 +1,4 @@
-describe("router.navigateBackToRoute", function() {
+describe("router.navigateBackRoute", function() {
 	var Router = Backbone.Router.extend({
 
 		routes: {
@@ -49,7 +49,7 @@ describe("router.navigateBackToRoute", function() {
 	it("should navigate to a specified backRoute", function() {
 		router.navigate('target1');
 		router.navigate('one');
-		router.navigateBackToRoute(router.current().route);
+		router.navigateBackRoute();
 
 		expect(Backbone.History.prototype.navigate.calledWith('target1')).to.be.true;
 	});
@@ -57,14 +57,14 @@ describe("router.navigateBackToRoute", function() {
 	it("should navigate to a provided default route when no backRoute specified", function() {
 		router.navigate('one');
 		router.navigate('target1');
-		router.navigateBackToRoute(router.current().route);
+		router.navigateBackRoute();
 
 		expect(Backbone.History.prototype.navigate.calledWith('one')).to.be.true;
 	});
 
 	it("should navigate to a backup fragment when route has not been previously navigated", function() {
 		router.navigate('target1');
-		router.navigateBackToRoute(router.current().route, null, 'one');
+		router.navigateBackRoute(null, 'one');
 
 		expect(Backbone.History.prototype.navigate.calledWith('one')).to.be.true;
 	});
@@ -72,7 +72,7 @@ describe("router.navigateBackToRoute", function() {
 	it("should allow a function as a backroute", function() {
 		router.navigate('target2');
 		router.navigate('two');
-		router.navigateBackToRoute(router.current().route);
+		router.navigateBackRoute();
 
 		expect(Backbone.History.prototype.navigate.calledWith('target2')).to.be.true;
 	});
@@ -80,13 +80,13 @@ describe("router.navigateBackToRoute", function() {
 	it("should pass the lastRoute as a parameter to a backroute function when there is navigation activity", function() {
 		router.navigate('target2');
 		router.navigate('two');
-		expect(router.navigateBackToRoute(router.current().route)).to.not.throw;
+		expect(router.navigateBackRoute()).to.not.throw;
 	});
 
 	it("should call navigate.back when a backroute function returns false", function() {
 		router.navigate('two');
 		router.navigate('returnFalse');
-		router.navigateBackToRoute(router.current().route);
+		router.navigateBackRoute();
 
 		expect(Backbone.History.prototype.navigate.calledWith('two')).to.be.true;
 	});

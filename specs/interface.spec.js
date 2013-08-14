@@ -12,8 +12,8 @@ describe('Backbone.Router instance extended with backbone.backroutes', function(
 		expect(Backbone.Router.prototype.navigate).to.be.a('function');
 	});
 
-	it("should have method navigateBackToRoute", function() {
-		expect(Backbone.Router.prototype.navigateBackToRoute).to.be.a('function');
+	it("should have method navigateBackRoute", function() {
+		expect(Backbone.Router.prototype.navigateBackRoute).to.be.a('function');
 	});
 
 });

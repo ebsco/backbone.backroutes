@@ -62,7 +62,7 @@
 		if (href.prop.slice(0, root.length) === root) {
 			evt.preventDefault();
 			if ($(this).is('.back')) {
-				router.navigateBackToRoute(router.current().route, { trigger: true }, href.attr);
+				router.navigateBackRoute({ trigger: true }, href.attr);
 			} else {
 				router.navigate(href.attr, true);
 			}
